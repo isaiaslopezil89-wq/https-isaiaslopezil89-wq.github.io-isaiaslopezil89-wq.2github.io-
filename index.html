@@ -9,24 +9,521 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400&family=Montserrat:wght@500;700;900&family=Nunito+Sans:wght@600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- VINCULACIÓN DE LA HOJA DE ESTILOS EXTERNA -->
-    <link rel="stylesheet" href="css/estilos.css">
-
     <!-- LIBRERÍA LOTTIE WEB -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+    <!-- TODO EL CSS INCRUSTADO DIRECTAMENTE AQUí -->
+    <style>
+        /* =========================================
+            1. REGLAS GENERALES Y COLORES BASE 
+            ========================================= */
+        body {
+            background-color: #1A1C40; /* Azul oscuro principal */
+            color: #D9D9D9; /* Gris claro para el texto */
+            font-family: 'Open Sans', sans-serif; /* Cuerpo de texto Open Sans */
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            padding-top: 80px; /* Espacio superior para compensar la barra fija */
+        }
+
+        /* =========================================
+            2. REGLAS TIPOGRÁFICAS (BASADAS EN EL MANUAL)
+            ========================================= */
+        h1 {
+            font-family: 'Montserrat', sans-serif; /* Montserrat Display */
+            font-size: 55px; 
+            font-weight: 700; 
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif; /* Montserrat H2 */
+            font-size: 36px; 
+            font-weight: 700; 
+            color: #9286D9; /* Morado institucional */
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif; /* Montserrat H3 */
+            font-size: 28px; 
+            font-weight: 500; 
+            color: #7D8C46; /* Verde olivo */
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        header p, .caja-transicion p, .caja-texto-gris p, .caja-texto-compacto p {
+            font-family: 'Open Sans', sans-serif; /* Open Sans para párrafos */
+            font-size: 16px;
+            font-weight: 400; 
+            line-height: 1.7;
+        }
+
+        header p {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* =========================================
+            3. NAVEGACIÓN SUPERIOR INTELIGENTE (FIJA Y FLOTANTE)
+            ========================================= */
+        nav.barra-superior {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #D9D9D9; /* Fondo gris claro */
+            padding: 15px 40px;
+            width: 100%; 
+            box-sizing: border-box; 
+            display: flex; 
+            flex-direction: row;
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease-in-out;
+        }
+
+        nav.barra-superior.barra-oculta {
+            transform: translateY(-100%);
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none; 
+            display: flex; 
+            flex-direction: row;
+            gap: 40px; 
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            font-family: 'Nunito Sans', sans-serif; /* Elementos de interfaz */
+            font-size: 14px;
+            font-weight: 800; 
+            color: #1A1C40; 
+            text-decoration: none; 
+            letter-spacing: 0.03em;
+        }
+
+        nav a:hover {
+            color: #7D8C46; 
+        }
+
+        nav .buscador {
+            font-family: 'Nunito Sans', sans-serif; /* Elementos de interfaz */
+            font-size: 14px;
+            font-weight: 600;
+            color: #1A1C40; 
+            border: 3px solid #1A1C40; 
+            padding: 8px 50px; 
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        /* =========================================
+            4. DISEÑO A DOS COLUMNAS (CONTENEDOR GENERAL)
+            ========================================= */
+        .contenedor-pagina {
+            display: flex;
+            flex-direction: row;
+            max-width: 1200px;
+            margin: 40px auto;
+            gap: 40px; 
+            padding: 0 20px;
+            align-items: flex-start; 
+        }
+
+        main.contenido-derecho {
+            flex-grow: 1; 
+            width: 100%;
+            transition: margin-left 0.4s ease-in-out;
+        }
+
+        aside.importa {
+            background-color: #D9D9D9;
+            color: #1A1C40;
+            padding: 30px 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        aside.importa h2 {
+            color: #1A1C40;
+        }
+
+        aside.importa p {
+            color: #2C2C2C;
+        }
+
+        /* =========================================
+            5. SISTEMA DE TARJETAS Y CAJAS ADICIONALES
+            ========================================= */
+        .fila-tarjetas {
+            display: flex;
+            flex-direction: row;
+            gap: 30px; 
+            margin-bottom: 30px;
+            align-items: center; 
+        }
+
+        .fila-cuatro-columnas {
+            display: flex;
+            flex-direction: row;
+            gap: 15px; 
+            margin-bottom: 30px;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .caja-texto-gris {
+            background-color: #D9D9D9;
+            color: #1A1C40;
+            padding: 25px 30px;
+            border-radius: 10px;
+            width: 60%; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            box-sizing: border-box;
+        }
+
+        .caja-texto-compacto {
+            background-color: #D9D9D9;
+            color: #1A1C40;
+            padding: 25px 20px;
+            border-radius: 8px;
+            width: 24%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .caja-texto-compacto h3 {
+            font-size: 16px;
+            color: #1A1C40;
+            margin-bottom: 12px;
+        }
+
+        .caja-texto-compacto p {
+            font-size: 12.5px;
+            color: #2C2C2C;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .caja-texto-gris h2, .caja-texto-gris h3 {
+            color: #1A1C40; 
+            margin-top: 0;
+        }
+
+        .caja-texto-gris p {
+            color: #2C2C2C; 
+            margin-bottom: 0;
+        }
+
+        .btn-ver-mas {
+            display: inline-block;
+            background-color: #57568C; 
+            color: #D9D9D9;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            align-self: flex-end; 
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-ver-mas:hover {
+            background-color: #7D8C46; 
+            color: #1A1C40;
+        }
+
+        .btn-conoce-mas {
+            display: inline-block;
+            background-color: #57568C; 
+            color: #D9D9D9;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-top: 15px;
+            align-self: flex-end; 
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-conoce-mas:hover {
+            background-color: #7D8C46; 
+            color: #1A1C40;
+        }
+
+        .caja-imagen {
+            background-color: #0F1926; 
+            padding: 12px; 
+            border-radius: 10px;
+            width: 40%; 
+            height: 240px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            overflow: hidden; 
+            box-sizing: border-box;
+        }
+
+        .caja-imagen-compacta {
+            background-color: #0F1926;
+            padding: 10px;
+            border-radius: 8px;
+            width: 24%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .caja-imagen img, .caja-imagen-compacta img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            border-radius: 6px;
+        }
+
+        .caja-transicion {
+            background-color: #0F1926; 
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .caja-video {
+            background-color: #0F1926; 
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .video-contenedor {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; 
+            height: 0;
+        }
+
+        .video-contenedor iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .caja-imagen-inferior {
+            background-color: #0F1926; 
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .caja-imagen-inferior img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* =========================================
+            6. MENÚ LATERAL IZQUIERDO DESLIZANTE (PANEL INTELIGENTE)
+            ========================================= */
+        .menu-lateral {
+            position: sticky;
+            top: 100px;
+            width: 240px;
+            flex-shrink: 0;
+            transform: translateX(0);
+            transition: transform 0.4s ease-in-out;
+            z-index: 100;
+        }
+
+        .menu-lateral.menu-oculto {
+            transform: translateX(-215px);
+        }
+
+        .menu-lateral.menu-oculto ~ main.contenido-derecho {
+            margin-left: -195px;
+        }
+
+        .contenido-menu-desplegable {
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .bloque-temas {
+            background-color: #57568C; 
+            padding: 20px 15px; 
+            border-radius: 20px 20px 0 0; 
+            z-index: 2;
+            position: relative;
+        }
+
+        .bloque-sumario {
+            background-color: #0F1926; 
+            padding: 30px 15px 20px 15px; 
+            border-radius: 0 0 20px 20px; 
+            z-index: 1;
+            position: relative;
+        }
+
+        .pestana-temas {
+            position: absolute;
+            right: -25px;
+            top: 30px;
+            background-color: #57568C;
+            color: #FFFFFF;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 15px 6px;
+            border-radius: 0 8px 8px 0;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            text-align: center;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+            transition: opacity 0.3s ease;
+        }
+
+        .pestana-sumario {
+            position: absolute;
+            right: -25px;
+            top: 30px;
+            background-color: #0F1926;
+            color: #FFFFFF;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 15px 6px;
+            border-radius: 0 8px 8px 0;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            text-align: center;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-lateral:hover .pestana-temas,
+        .menu-lateral:hover .pestana-sumario {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-lateral h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            color: #7D8C46; 
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .bloque-sumario p.subtitulo-sumario {
+            font-family: 'Nunito Sans', sans-serif; 
+            font-size: 12px;
+            color: #D9D9D9;
+            margin-top: -10px;
+            margin-bottom: 12px;
+        }
+
+        .menu-lateral ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-lateral li {
+            margin-bottom: 10px; 
+        }
+
+        .menu-lateral a {
+            font-family: 'Nunito Sans', sans-serif; 
+            font-size: 12px;
+            font-weight: 800;
+            color: #7D8C46; 
+            text-decoration: none;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .menu-lateral a:hover {
+            color: #D9D9D9; 
+        }
+
+        /* =========================================
+            7. PIE DE PÁGINA (Lora Serif aplicado)
+            ========================================= */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #0F1926; 
+        }
+
+        footer p {
+            font-family: 'Lora', serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
-    <nav class="barra-superior">
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR INTELIGENTE -->
+    <nav class="barra-superior" id="barraSuperior">
         <div class="logo">
-            <img src="img/logo2.webp" alt="Logo de WikiDesign" style="height: 40px; width: 180px; object-fit: fill;">
+            <a href="https://uvmwiki.dreamhosters.com/index.html">
+                <img src="img/logo2.webp" alt="Logo de WikiDesign" style="height: 40px; width: 180px; object-fit: fill;">
+            </a>
         </div>
         
         <ul>
-            <li><a href="#inicio">INICIO</a></li>
-            <li><a href="#colabora">COLABORA</a></li>
-            <li><a href="#acerca">ACERCA DE NOSOTROS</a></li>
+            <li><a href="https://uvmwiki.dreamhosters.com/index.html">INICIO</a></li>
+            <li><a href="https://uvmwiki.dreamhosters.com/colabora/">COLABORA</a></li>
+            <li><a href="https://uvmwiki.dreamhosters.com/nosotros/">ACERCA DE NOSOTROS</a></li>
         </ul>
 
         <div class="buscador">
@@ -43,30 +540,34 @@
     <!-- CONTENEDOR PRINCIPAL A DOS COLUMNAS -->
     <div class="contenedor-pagina">
         
-        <!-- COLUMNA IZQUIERDA: MENÚ LATERAL -->
-        <aside class="menu-lateral">
-            <div class="bloque-temas">
-                <h4>TEMAS</h4>
-                <ul>
-                    <li><a href="#problema">INTRODUCCIÓN</a></li>
-                    <li><a href="#empatizar">EMPATIZAR</a></li>
-                    <li><a href="#definir">DEFINIR</a></li>
-                    <li><a href="#idear">IDEAR</a></li>
-                    <li><a href="#prototipar">PROTOTIPAR</a></li>
-                    <li><a href="#evaluar">EVALUAR</a></li>
-                </ul>
-            </div>
+        <!-- COLUMNA IZQUIERDA: MENÚ LATERAL DESLIZANTE -->
+        <aside class="menu-lateral" id="menuLateral">
+            <div class="contenido-menu-desplegable">
+                <div class="bloque-temas">
+                    <div class="pestana-temas">TEMAS</div>
+                    <h4>TEMAS</h4>
+                    <ul>
+                        <li><a href="#problema">INTRODUCCIÓN</a></li>
+                        <li><a href="#empatizar">EMPATIZAR</a></li>
+                        <li><a href="#definir">DEFINIR</a></li>
+                        <li><a href="#idear">IDEAR</a></li>
+                        <li><a href="#prototipar">PROTOTIPAR</a></li>
+                        <li><a href="#evaluar">EVALUAR</a></li>
+                    </ul>
+                </div>
 
-            <div class="bloque-sumario">
-                <h4>SUMARIO</h4>
-                <p class="subtitulo-sumario">Experiencia de usuario - P1</p>
-                <ul>
-                    <li><a href="#empatizar-detalles">1. EMPATIZAR</a></li>
-                    <li><a href="#definir-detalles">2. DEFINIR</a></li>
-                    <li><a href="#idear-detalles">3. IDEAR</a></li>
-                    <li><a href="#prototipar-detalles">4. PROTOTIPAR</a></li>
-                    <li><a href="#evaluar-detalles">5. EVALUAR</a></li>
-                </ul>
+                <div class="bloque-sumario">
+                    <div class="pestana-sumario">SUMARIO</div>
+                    <h4>SUMARIO</h4>
+                    <p class="subtitulo-sumario">Experiencia de usuario - P1</p>
+                    <ul>
+                        <li><a href="#empatizar-detalles">1. EMPATIZAR</a></li>
+                        <li><a href="#definir-detalles">2. DEFINIR</a></li>
+                        <li><a href="#idear-detalles">3. IDEAR</a></li>
+                        <li><a href="#prototipar-detalles">4. PROTOTIPAR</a></li>
+                        <li><a href="#evaluar-detalles">5. EVALUAR</a></li>
+                    </ul>
+                </div>
             </div>
         </aside>
 
@@ -93,16 +594,14 @@
                 </p>
             </div>
 
-            <!-- CAJA 3: VIDEO DE YOUTUBE (CON LOS 2 MÉTODOS DE PROTECCIÓN) -->
+            <!-- CAJA 3: VIDEO DE YOUTUBE -->
             <div class="caja-video">
                 <h3 style="margin-bottom: 15px; font-size: 22px;">Video Explicativo</h3>
                 
-                <!-- Método 1: Reproductor iframe optimizado (youtube-nocookie) -->
                 <div class="video-contenedor">
                     <iframe src="https://www.youtube-nocookie.com/embed/RlsErkJmub8?enablejsapi=1&origin=*" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
 
-                <!-- Método 2: Botón de respaldo directo por si el navegador bloquea el iframe local -->
                 <div style="margin-top: 20px; text-align: center;">
                     <a href="https://www.youtube.com/watch?v=RlsErkJmub8" target="_blank" class="btn-ver-mas" style="background-color: #9286D9; color: #1A1C40; display: inline-block;">▶ Ver video directamente en YouTube</a>
                 </div>
@@ -190,51 +689,66 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN DETALLADA: 4 ELEMENTOS EN LÍNEA -->
+            <!-- SECCIÓN DETALLADA: 4 ELEMENTOS EN LÍNEA CON BOTONES ENLAZADOS -->
             <hr style="border: 1px solid #57568C; margin: 50px 0 30px 0;">
             <h2 style="text-align: center; margin-bottom: 30px; color: #7D8C46;">Detalle de Subtemas y Fases</h2>
 
-            <!-- LÍNEA 1: EMPATIZAR Y DEFINIR EN 4 COLUMNAS -->
+            <!-- LÍNEA 1: EMPATIZAR Y DEFINIR -->
             <div id="empatizar-detalles" class="fila-cuatro-columnas">
                 <div class="caja-texto-compacto">
-                    <h3>1. Empatizar</h3>
-                    <p>En el ámbito del DCU y la experiencia de usuario (UX), la empatía va mucho más allá de una simple suposición; se define como la capacidad metodológica y cognitiva de suspender nuestros propios sesgos y modelos mentales para comprender profundamente la realidad, el contexto físico, las necesidades cotidianas y las emociones genuinas del usuario final al interactuar con su entorno.</p>
+                    <div>
+                        <h3>1. Empatizar</h3>
+                        <p>En el ámbito del DCU y la experiencia de usuario (UX), la empatía va mucho más allá de una simple suposición; se define como la capacidad metodológica y cognitiva de suspender nuestros propios sesgos y modelos mentales para comprender profundamente la realidad, el contexto físico, las necesidades cotidianas y las emociones genuinas del usuario final al interactuar con su entorno.</p>
+                    </div>
+                    <a href="https://paubenabarre.com/empatizar-con-el-usuario/" target="_blank" class="btn-conoce-mas">Conoce más</a>
                 </div>
                 <div class="caja-imagen-compacta">
                     <img src="img/empatia.jpeg" alt="Detalle Empatizar">
                 </div>
                 <div class="caja-texto-compacto" id="definir-detalles">
-                    <h3>2. Definir</h3>
-                    <p>En la fase analítica, la empatía actúa como un instrumento metodológico clave para decodificar el comportamiento humano. Su propósito fundamental es estructurar los hallazgos cualitativos y transformar los problemas detectados en oportunidades claras de innovación, usabilidad y mejora continua dentro de la arquitectura del proyecto digital.</p>
+                    <div>
+                        <h3>2. Definir</h3>
+                        <p>En la fase analítica, la empatía actúa como un instrumento metodológico clave para decodificar el comportamiento humano. Su propósito fundamental es estructurar los hallazgos cualitativos y transformar los problemas detectados en oportunidades claras de innovación, usabilidad y mejora continua dentro de la arquitectura del proyecto digital.</p>
+                    </div>
+                    <a href="https://aprendix.org/usuario-que-significa/" target="_blank" class="btn-conoce-mas">Conoce más</a>
                 </div>
                 <div class="caja-imagen-compacta">
                     <img src="img/definir.webp" alt="Detalle Definir">
                 </div>
             </div>
 
-            <!-- LÍNEA 2: IDEAR Y PROTOTIPAR EN 4 COLUMNAS -->
+            <!-- LÍNEA 2: IDEAR Y PROTOTIPAR -->
             <div class="fila-cuatro-columnas">
                 <div class="caja-texto-compacto" id="idear-detalles">
-                    <h3>3. Idear</h3>
-                    <p>La ideación empática es la fase creativa donde los insights, dolores y expectativas descubiertos durante la investigación profunda se traducen en soluciones tangibles. Utiliza la empatía como un filtro estricto de viabilidad humana para asegurar que cada concepto responda estrictamente a la realidad de la persona.</p>
+                    <div>
+                        <h3>3. Idear</h3>
+                        <p>La ideación empática es la fase creativa donde los insights, dolores y expectativas descubiertos durante la investigación profunda se traducen en soluciones tangibles. Utiliza la empatía como un filtro estricto de viabilidad humana para asegurar que cada concepto responda estrictamente a la realidad de la persona.</p>
+                    </div>
+                    <a href="https://www.izo.es/blog/design-thinking-innovacion-centrada-en-el-usuario" target="_blank" class="btn-conoce-mas">Conoce más</a>
                 </div>
                 <div class="caja-imagen-compacta">
                     <img src="img/idear.jpg" alt="Detalle Idear">
                 </div>
                 <div class="caja-texto-compacto" id="prototipar-detalles">
-                    <h3>4. Prototipar</h3>
-                    <p>La prototipación empática consiste en la materialización rápida y de bajo costo de las ideas concebidas, con el único propósito de ponerlas frente al usuario para observar sus reacciones espontáneas, validar supuestos de diseño y medir el impacto real de la solución en su contexto diario sin desarrollos complejos.</p>
+                    <div>
+                        <h3>4. Prototipar</h3>
+                        <p>La prototipación empática consiste en la materialización rápida y de bajo costo de las ideas concebidas, con el único propósito de ponerlas frente al usuario para observar sus reacciones espontáneas, validar supuestos de diseño y medir el impacto real de la solución en su contexto diario sin desarrollos complejos.</p>
+                    </div>
+                    <a href="https://www.justinmind.com/es/creacion-de-prototipos" target="_blank" class="btn-conoce-mas">Conoce más</a>
                 </div>
                 <div class="caja-imagen-compacta">
                     <img src="img/Prototipar.webp" alt="Detalle Prototipar">
                 </div>
             </div>
 
-            <!-- LÍNEA 3: EVALUAR EN 4 COLUMNAS -->
+            <!-- LÍNEA 3: EVALUAR -->
             <div class="fila-cuatro-columnas" id="evaluar-detalles">
                 <div class="caja-texto-compacto">
-                    <h3>5. Evaluar</h3>
-                    <p>La evaluación empática representa la instancia crítica de análisis donde se observa y mide de cerca el desempeño, el nivel de satisfacción y la reacción emocional del usuario frente a una solución ya implementada, priorizando siempre su experiencia subjetiva para detectar fricciones ocultas y asegurar el éxito del producto.</p>
+                    <div>
+                        <h3>5. Evaluar</h3>
+                        <p>La evaluación empática representa la instancia crítica de análisis donde se observa y mide de cerca el desempeño, el nivel de satisfacción y la reacción emocional del usuario frente a una solución ya implementada, priorizando siempre su experiencia subjetiva para detectar fricciones ocultas y asegurar el éxito del producto.</p>
+                    </div>
+                    <a href="https://fastercapital.com/es/contenido/Evaluacion-de-la-experiencia-del-usuario--metodos-y-herramientas-de-evaluacion-de-la-experiencia-del-usuario.html" target="_blank" class="btn-conoce-mas">Conoce más</a>
                 </div>
                 <div class="caja-imagen-compacta">
                     <img src="img/Evaluar.webp" alt="Detalle Evaluar">
@@ -256,14 +770,50 @@
         </main>
     </div>
 
-    <!-- SCRIPT DE LOTTIE -->
+    <!-- SCRIPTS -->
     <script>
+        // Animación Lottie
         lottie.loadAnimation({
             container: document.getElementById('animacion-confused'),
             renderer: 'svg',
             loop: true,
             autoplay: true,
             path: 'https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json'
+        });
+
+        // Menú lateral deslizante
+        const menu = document.getElementById('menuLateral');
+        
+        setTimeout(() => {
+            menu.classList.add('menu-oculto');
+        }, 5000);
+
+        menu.addEventListener('mouseenter', () => {
+            menu.classList.remove('menu-oculto');
+        });
+
+        menu.addEventListener('mouseleave', () => {
+            menu.classList.add('menu-oculto');
+        });
+
+        // Barra superior inteligente según el scroll
+        let ultimoScroll = 0;
+        const barraSuperior = document.getElementById('barraSuperior');
+
+        window.addEventListener('scroll', () => {
+            let scrollActual = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollActual <= 10) {
+                barraSuperior.classList.remove('barra-oculta');
+                return;
+            }
+
+            if (scrollActual > ultimoScroll) {
+                barraSuperior.classList.add('barra-oculta');
+            } else {
+                barraSuperior.classList.remove('barra-oculta');
+            }
+            ultimoScroll = scrollActual <= 0 ? 0 : scrollActual;
         });
     </script>
     
